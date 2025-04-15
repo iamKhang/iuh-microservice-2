@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "a5e3b8c7-d9f4-4e5a-b8c7-d9f44e5ab8c7",
+		"name": "Inventory Microservice API",
+		"description": "Collection for testing the Inventory Microservice through the API Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Inventory Items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"inventory"
+					]
+				},
+				"description": "Retrieve all inventory items"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Inventory Item by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/inventory/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"inventory",
+						"1"
+					]
+				},
+				"description": "Retrieve a specific inventory item by its ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Inventory Item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Wireless Mouse\",\n    \"description\": \"Ergonomic wireless mouse\",\n    \"price\": 35.99,\n    \"quantity\": 120,\n    \"category\": \"Accessories\",\n    \"sku\": \"ACC-002\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"inventory"
+					]
+				},
+				"description": "Add a new item to the inventory"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Inventory Item",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"price\": 39.99,\n    \"quantity\": 150,\n    \"description\": \"Updated description for the item\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/inventory/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"inventory",
+						"3"
+					]
+				},
+				"description": "Update an existing inventory item"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Inventory Item",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/inventory/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"inventory",
+						"3"
+					]
+				},
+				"description": "Delete an inventory item by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Process Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"items\": [\n        {\n            \"id\": \"1\",\n            \"quantity\": 5\n        },\n        {\n            \"id\": \"2\",\n            \"quantity\": 3\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/inventory/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"inventory",
+						"order"
+					]
+				},
+				"description": "Process an order by reducing inventory quantities"
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check - API Gateway",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"health"
+					]
+				},
+				"description": "Check if the API Gateway is running"
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check - Inventory Service (Direct)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"health"
+					]
+				},
+				"description": "Check if the Inventory Service is running (direct access)"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
