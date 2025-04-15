@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "b7e5c8d9-f6a7-4e8b-b7e5-c8d9f6a74e8b",
+		"name": "Circuit Breaker Test",
+		"description": "Collection for testing the Circuit Breaker functionality in the API Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Circuit Breaker Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/circuit-status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"circuit-status"
+					]
+				},
+				"description": "Get the current status of all circuit breakers"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Inventory Items (Success)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"inventory"
+					]
+				},
+				"description": "Get all inventory items (should succeed if inventory service is running)"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Inventory Items (Failure - Stop Inventory Service)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"inventory"
+					]
+				},
+				"description": "Get all inventory items (should fail if inventory service is stopped)"
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check - API Gateway",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"health"
+					]
+				},
+				"description": "Check if the API Gateway is running"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3002",
+			"type": "string"
+		}
+	]
+}
