@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "c9e8d7f6-b5a4-3e2d-c9e8-d7f6b5a43e2d",
+		"name": "Retry Pattern Test",
+		"description": "Collection for testing the Retry Pattern functionality in the API Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Retry Configuration",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/retry-config",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"retry-config"
+					]
+				},
+				"description": "Get the current retry configuration"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Inventory Items (Success)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"inventory"
+					]
+				},
+				"description": "Get all inventory items (should succeed if inventory service is running)"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Inventory Items (Failure - Stop Inventory Service)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"inventory"
+					]
+				},
+				"description": "Get all inventory items (should fail if inventory service is stopped, but retry 3 times)"
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check - API Gateway",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"health"
+					]
+				},
+				"description": "Check if the API Gateway is running"
+			},
+			"response": []
+		},
+		{
+			"name": "Circuit Breaker Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/circuit-status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"circuit-status"
+					]
+				},
+				"description": "Get the current status of all circuit breakers"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3002",
+			"type": "string"
+		}
+	]
+}

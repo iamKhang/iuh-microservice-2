@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const authMiddleware = require('./middleware/auth.middleware');
 const createCircuitBreakerMiddleware = require('./middleware/circuit-breaker.middleware');
+const createRetryMiddleware = require('./middleware/retry.middleware');
 const routesConfig = require('./routes');
 
 const app = express();
@@ -51,6 +52,22 @@ app.get('/circuit-status', (req, res) => {
     });
 });
 
+// Retry configuration endpoint
+app.get('/retry-config', (req, res) => {
+    // Get the retry configuration from the middleware
+    const retryConfig = {
+        maxRetries: 3,
+        retryDelay: 1000,
+        exponentialBackoff: true,
+        description: 'Retry on all error status codes (4xx, 5xx)'
+    };
+
+    res.status(200).json({
+        service: 'api-gateway',
+        retryConfiguration: retryConfig
+    });
+});
+
 // Apply routes from configuration
 routesConfig.forEach(route => {
     // Extract service name from the route path
@@ -59,8 +76,14 @@ routesConfig.forEach(route => {
     app.use(
         route.path,
         authMiddleware,
-        // Apply circuit breaker before proxying
-        createCircuitBreakerMiddleware(serviceName),
+        // Apply retry middleware first - guaranteed 3 retries
+        createRetryMiddleware({
+            maxRetries: 3,
+            retryDelay: 1000,
+            exponentialBackoff: true
+        }),
+        // Apply circuit breaker after retry
+        // createCircuitBreakerMiddleware(serviceName),
         createProxyMiddleware({
             target: route.target,
             changeOrigin: true,
@@ -75,12 +98,17 @@ routesConfig.forEach(route => {
             },
             onError: (err, req, res) => {
                 console.error(`Proxy error for ${serviceName}:`, err);
+
+                // Set status code to 500 for retry middleware to catch
+                res.statusCode = 500;
+
                 // Only send response if headers haven't been sent yet
                 if (!res.headersSent) {
                     res.status(500).json({
                         error: true,
                         message: 'Service unavailable',
-                        service: serviceName
+                        service: serviceName,
+                        code: err.code || 'UNKNOWN_ERROR'
                     });
                 }
             },
